@@ -12,7 +12,7 @@ export const AppContainer = styled.div`
 export const MainBg = styled.div`
   display: flex;
   flex-direction: row;
-  min-height: calc(100vh - 60px); /* minus header height */
+  min-height: calc(100vh - 60px);
   background-color: ${({theme}) => theme.bg};
 `
 
@@ -131,13 +131,8 @@ export const MetaItem = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  color: ${({active}) =>
-    active ? '#2563eb' : '#606060'}; /* blue if active, gray otherwise */
+  color: ${({active}) => (active ? '#2563eb' : '#606060')};
   gap: 5px;
-  
-  p {
-    margin: 0;
-  }
 `
 
 export const HrLine = styled.hr`
@@ -159,19 +154,24 @@ export const ChannelImage = styled.img`
   margin-right: 12px;
 `
 
-export const ChannelName = styled.p`
-  font-weight: 500;
-  color: ${({theme}) => theme.text};
-  margin: 0;
+/* ---------- Reusable Styled Paragraph ---------- */
+export const SemanticP = styled.p`
+  font-size: ${({size}) => size || '14px'};
+  font-weight: ${({weight}) => weight || 'normal'};
+  color: ${({theme, color}) => color || theme.text};
+  margin: ${({margin}) => margin || '0'};
 `
 
-export const SubscriberCount = styled.p`
+export const ChannelName = styled(SemanticP)`
+  font-weight: 500;
+`
+
+export const SubscriberCount = styled(SemanticP)`
   font-size: 14px;
   color: #64748b;
-  margin: 0;
 `
 
-export const VideoDescription = styled.p`
+export const VideoDescription = styled(SemanticP)`
   font-size: 15px;
   color: #475569;
   margin-top: 10px;

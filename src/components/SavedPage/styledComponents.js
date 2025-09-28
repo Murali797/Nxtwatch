@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {Link} from 'react-router-dom'
 
 export const TrendingDiv = styled.div`
   background-color: ${({theme}) => theme.bg};
@@ -6,83 +7,86 @@ export const TrendingDiv = styled.div`
 `
 
 export const AppContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
-  padding-top: 60px; /* header height */
+  min-width: 100%;
+  padding-top: 60px;
   box-sizing: border-box;
 `
 
 export const MainBg = styled.div`
   display: flex;
-  width: 100%;
   flex-direction: row;
-  position: relative;
+  width: 100%;
 `
 
-export const SavedList = styled.div`
+export const SavedBg = styled.section`
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background-color: ${({theme}) =>
+    theme.mode === 'dark' ? '#181818' : '#f9f9f9'};
+`
+
+export const SaveHead = styled.h1`
+  font-size: 20px;
+  color: ${({theme}) => theme.text};
+`
+
+export const SavedList = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  list-style-type: none;
+  margin: 0;
+`
+
+export const SavedCard = styled.li`
+  width: 300px;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-
-  @media screen and (min-width: 768px) {
-    margin-left: 350px;
-  }
+  background-color: ${({theme}) =>
+    theme.mode === 'dark' ? '#000000' : '#ffffff'};
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 `
 
-export const SavedCard = styled.div`
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  background-color: ${({theme}) => theme.cardBg};
-  border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-
-    @media screen and (max-width: 767px) {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+export const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
 `
 
 export const SavedThumbnail = styled.img`
-  width: 250px;
-  margin-right: 15px;
-  border-radius: 8px;
-
-  @media screen and (max-width: 767px) {
-    width: 100%;
-    margin-right: 0;
-    margin-bottom: 10px;
-  }
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
 `
 
 export const SavedDetails = styled.div`
-  display: flex;
-  flex-direction: column;
+  padding: 12px;
 `
 
-export const SavedTitle = styled.h3`
-  font-size: 18px;
-  margin: 0 0 5px 0;
+export const SavedTitle = styled.h2`
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 4px 0;
   color: ${({theme}) => theme.text};
 `
 
 export const SavedText = styled.p`
   font-size: 14px;
-  color: #606060;
   margin: 2px 0;
+  color: ${({theme}) => theme.text};
 `
 
-export const NoSavedContainer = styled.div`
+export const NoSavedContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 50px;
+  margin-top: 50px;
   text-align: center;
-  color: ${({theme}) => (theme.mode === 'dark' ? '#ffffff' : '#181818')};
 
   img {
     width: 300px;
@@ -90,43 +94,19 @@ export const NoSavedContainer = styled.div`
   }
 
   h1 {
-    font-size: 24px;
+    font-size: 20px;
     margin-bottom: 10px;
+    color: ${({theme}) => theme.text};
   }
 
   p {
-    font-size: 16px;
-    color: ${({theme}) => (theme.mode === 'dark' ? '#cccccc' : '#606060')};
+    font-size: 14px;
+    color: ${({theme}) => theme.text};
   }
-`
-
-export const SavedBg = styled.div`
-  background-color: ${({theme}) => theme.cardBg};
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 16px;
-  width: 100%;
-  position: sticky;
-  top: 60px; /* header height */
-  z-index: 1;
-
-  @media screen and (min-width: 768px) {
-    margin-left: 300px;
-    width: calc(100% - 300px);
-  }
-`
-
-export const SaveHead = styled.h1`
-  color: ${({theme}) => theme.text};
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0;
 `
 
 export const LoaderContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 50px;
+  margin-top: 40px;
 `

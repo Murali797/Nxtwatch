@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const LoginBg = styled.div`
-  background-color: ${({ theme }) => theme.bg};
+  background-color: ${({theme}) => theme.bg};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,12 +10,12 @@ export const LoginBg = styled.div`
 `
 
 export const LoginContainer = styled.div`
-  background-color: ${({ theme }) => theme.bg};
+  background-color: ${({theme}) => theme.bg};
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  box-shadow: ${({ theme }) =>
+  box-shadow: ${({theme}) =>
     theme.mode === 'dark'
       ? '0 2px 6px rgba(255, 255, 255, 0.1)'
       : '0 2px 6px rgba(0, 0, 0, 0.2)'};
@@ -39,7 +39,7 @@ export const Form = styled.form`
 export const Label = styled.label`
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
   font-weight: bold;
   margin-bottom: 5px;
 `
@@ -63,12 +63,12 @@ export const Input = styled.input`
   width: 100%;
   padding: 10px 12px;
   border-radius: 6px;
-  border: 1px solid ${({ theme }) => theme.text};
+  border: 1px solid ${({theme}) => theme.text};
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
   box-sizing: border-box;
-  background-color: ${({ theme }) => theme.bg};
+  background-color: ${({theme}) => theme.bg};
 
   &:focus {
     outline: none;
@@ -81,7 +81,7 @@ export const ShowPasswordBg = styled.div`
   align-items: center;
   margin-bottom: 20px;
   font-size: 14px;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
 `
 
 export const CheckInput = styled.input`
@@ -94,13 +94,12 @@ export const ShowPasswordLabel = styled.label`
   font-size: 14px;
   font-weight: bold;
   font-family: 'Roboto', sans-serif;
-  color: ${({ theme }) => theme.text};
+  color: ${({theme}) => theme.text};
 `
-
 export const LoginBtn = styled.button`
   width: 100%;
   height: 40px;
-  color: white;
+  color: #ffffff; /* exact hex value */
   background-color: #3b82f6;
   border-radius: 8px;
   border: 0;

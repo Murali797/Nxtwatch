@@ -33,7 +33,8 @@ export const SideContent = styled.div`
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: ${({theme}) => (theme.mode === 'dark' ? '#444' : '#e0e0e0')};
+    background-color: ${({theme}) =>
+      theme.mode === 'dark' ? '#444' : '#e0e0e0'};
     color: ${({theme}) => theme.text};
   }
 `
@@ -65,7 +66,7 @@ export const MainSideBg = styled.div`
   height: 100%;
 `
 
-export const ContactHead = styled.h2`
+export const ContactHead = styled.p`
   font-size: 20px;
   font-family: 'Roboto';
   padding-bottom: 20px;
@@ -87,7 +88,6 @@ export const Logos = styled.div`
   display: flex;
   flex-direction: row;
 `
-
 
 export const StyledLink = styled(Link)`
   text-decoration: none;

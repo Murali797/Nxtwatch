@@ -1,12 +1,12 @@
-import {Component} from 'react';
-import Cookies from 'js-cookie';
-import {ThemeProvider as StyledThemeProvider} from 'styled-components';
-import ThemeContext from '../../context/ThemeContext';
-import Header from '../Header';
-import Sidebar from '../Sidebar';
-import Loader from 'react-loader-spinner';
-import {AiOutlineLike, AiOutlineDislike} from 'react-icons/ai';
-import {MdPlaylistAdd} from 'react-icons/md';
+import {Component} from 'react'
+import Cookies from 'js-cookie'
+import {ThemeProvider as StyledThemeProvider} from 'styled-components'
+import ThemeContext from '../../context/ThemeContext'
+import Header from '../Header'
+import Sidebar from '../Sidebar'
+import Loader from 'react-loader-spinner'
+import {AiOutlineLike, AiOutlineDislike} from 'react-icons/ai'
+import {MdPlaylistAdd} from 'react-icons/md'
 
 import {
   AppContainer,
@@ -20,8 +20,6 @@ import {
   HrLine,
   ChannelInfo,
   ChannelImage,
-  ChannelName,
-  SubscriberCount,
   VideoDescription,
   FailureView,
   FailureImg,
@@ -29,13 +27,14 @@ import {
   FailureText,
   RetryBtn,
   LoaderContainer,
-} from './styledComponents';
+  SemanticP,
+} from './styledComponents'
 
 const failureImgUrl =
-  'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png';
+  'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
 
 class VideoDetailItems extends Component {
-  static contextType = ThemeContext;
+  static contextType = ThemeContext
 
   state = {
     detailVids: null,
@@ -44,54 +43,54 @@ class VideoDetailItems extends Component {
     liked: false,
     disliked: false,
     saved: false,
-  };
+  }
 
   componentDidMount() {
-    this.renderDetailsItems();
+    this.renderDetailsItems()
   }
 
   renderDetailsItems = async () => {
-    this.setState({isLoading: true});
-    const {match} = this.props;
-    const {id} = match.params;
-    const url = `https://apis.ccbp.in/videos/${id}`;
-    const jwtToken = Cookies.get('jwt_token');
+    this.setState({isLoading: true})
+    const {match} = this.props
+    const {id} = match.params
+    const url = `https://apis.ccbp.in/videos/${id}`
+    const jwtToken = Cookies.get('jwt_token')
 
     const options = {
       method: 'GET',
-      headers: { Authorization: `Bearer ${jwtToken}` },
-    };
+      headers: {Authorization: `Bearer ${jwtToken}`},
+    }
 
     try {
-      const response = await fetch(url, options);
+      const response = await fetch(url, options)
       if (response.ok) {
-        const data = await response.json();
+        const data = await response.json()
         this.setState({
           detailVids: data.video_details,
           isLoading: false,
           apiFailed: false,
-        });
+        })
       } else {
-        this.setState({isLoading: false, apiFailed: true});
+        this.setState({isLoading: false, apiFailed: true})
       }
     } catch {
-      this.setState({isLoading: false, apiFailed: true});
+      this.setState({isLoading: false, apiFailed: true})
     }
-  };
+  }
 
   retry = () => {
-    this.renderDetailsItems();
-  };
+    this.renderDetailsItems()
+  }
 
-  onLike = () => this.setState({ liked: true, disliked: false });
-  onDislike = () => this.setState({ liked: false, disliked: true });
+  onLike = () => this.setState({liked: true, disliked: false})
+  onDislike = () => this.setState({liked: false, disliked: true})
 
   savedVid = () => {
-    const { detailVids } = this.state;
-    this.setState(prev => ({ saved: !prev.saved }));
+    const {detailVids} = this.state
+    this.setState(prev => ({saved: !prev.saved}))
 
-    let saved = JSON.parse(localStorage.getItem('savedVideos')) || [];
-    const alreadySaved = saved.find(v => v.id === detailVids.id);
+    let saved = JSON.parse(localStorage.getItem('savedVideos')) || []
+    const alreadySaved = saved.find(v => v.id === detailVids.id)
     if (!alreadySaved) {
       saved.push({
         id: detailVids.id,
@@ -99,10 +98,10 @@ class VideoDetailItems extends Component {
         thumbnail_url: detailVids.thumbnail_url,
         channel: detailVids.channel.name,
         view_count: detailVids.view_count,
-      });
+      })
     }
-    localStorage.setItem('savedVideos', JSON.stringify(saved));
-  };
+    localStorage.setItem('savedVideos', JSON.stringify(saved))
+  }
 
   renderFailureView = () => (
     <FailureView>
@@ -114,11 +113,11 @@ class VideoDetailItems extends Component {
       </FailureText>
       <RetryBtn onClick={this.retry}>Retry</RetryBtn>
     </FailureView>
-  );
+  )
 
   renderVideoDetails = () => {
-    const { detailVids, liked, disliked, saved } = this.state;
-    if (!detailVids) return null;
+    const {detailVids, liked, disliked, saved} = this.state
+    if (!detailVids) return null
 
     return (
       <VideoContainer>
@@ -128,19 +127,34 @@ class VideoDetailItems extends Component {
           allowFullScreen
         />
 
-        {/* Semantic <p> for tests */}
-        <p>{detailVids.title}</p>
+        <SemanticP
+          size="18px"
+          weight="bold"
+          margin="8px 0"
+          data-testid="video-title"
+        >
+          {detailVids.title}
+        </SemanticP>
+
         <VideoMeta>
           <MetaLeft>
-            <p>{detailVids.view_count} views</p>
-            <p>• {detailVids.published_at}</p>
+            <SemanticP data-testid="video-views">
+              {detailVids.view_count} views
+            </SemanticP>
+            <SemanticP>• {detailVids.published_at}</SemanticP>
           </MetaLeft>
 
           <MetaRight>
-            <button onClick={this.onLike} style={{ color: liked ? '#2563eb' : '#64748b' }}>
+            <button
+              onClick={this.onLike}
+              style={{color: liked ? '#2563eb' : '#64748b'}}
+            >
               <AiOutlineLike size={20} /> Like
             </button>
-            <button onClick={this.onDislike} style={{ color: disliked ? '#2563eb' : '#64748b' }}>
+            <button
+              onClick={this.onDislike}
+              style={{color: disliked ? '#2563eb' : '#64748b'}}
+            >
               <AiOutlineDislike size={20} /> Dislike
             </button>
             <button onClick={this.savedVid}>
@@ -152,21 +166,30 @@ class VideoDetailItems extends Component {
         <HrLine />
 
         <ChannelInfo>
-          <ChannelImage src={detailVids.channel.profile_image_url} alt="channel logo" />
+          <ChannelImage
+            src={detailVids.channel.profile_image_url}
+            alt="channel logo"
+          />
           <div>
-            <ChannelName>{detailVids.channel.name}</ChannelName>
-            <SubscriberCount>{detailVids.channel.subscriber_count} subscribers</SubscriberCount>
+            <SemanticP data-testid="channel-name" weight="bold">
+              {detailVids.channel.name}
+            </SemanticP>
+            <SemanticP>
+              {detailVids.channel.subscriber_count} subscribers
+            </SemanticP>
           </div>
         </ChannelInfo>
 
-        <VideoDescription>{detailVids.description}</VideoDescription>
+        <VideoDescription data-testid="video-description">
+          {detailVids.description}
+        </VideoDescription>
       </VideoContainer>
-    );
-  };
+    )
+  }
 
   render() {
-    const { theme } = this.context;
-    const { isLoading, apiFailed } = this.state;
+    const {theme} = this.context
+    const {isLoading, apiFailed} = this.state
 
     return (
       <StyledThemeProvider theme={theme}>
@@ -176,7 +199,7 @@ class VideoDetailItems extends Component {
             <Sidebar />
             <DetailMain>
               {isLoading ? (
-                <LoaderContainer>
+                <LoaderContainer data-testid="loader">
                   <Loader
                     type="ThreeDots"
                     color={theme.mode === 'dark' ? '#ffffff' : '#000000'}
@@ -193,8 +216,8 @@ class VideoDetailItems extends Component {
           </MainBg>
         </AppContainer>
       </StyledThemeProvider>
-    );
+    )
   }
 }
 
-export default VideoDetailItems;
+export default VideoDetailItems

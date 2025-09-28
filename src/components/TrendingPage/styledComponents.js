@@ -107,9 +107,9 @@ export const MetaInfo = styled.div`
   color: ${({theme}) => theme.text};
 `
 
-export const Meta = styled.span``
+export const Meta = styled.p``
 
-export const VideoTitle = styled.h2`
+export const VideoTitle = styled.p`
   font-size: 16px;
   font-weight: 500;
   font-family: "Roboto";

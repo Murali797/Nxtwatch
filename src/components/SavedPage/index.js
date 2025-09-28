@@ -19,6 +19,7 @@ import {
   SaveHead,
   NoSavedContainer,
   LoaderContainer,
+  StyledLink,
 } from './styledComponents'
 
 class SavedPage extends Component {
@@ -34,16 +35,41 @@ class SavedPage extends Component {
     }, 500)
   }
 
-  NoSavedVids = () => (
-    <NoSavedContainer>
-      <img
-        src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png"
-        alt="no saved videos"
-      />
-      <h1>No Saved Videos Found</h1>
-      <p>You can see your videos while watching them</p>
-    </NoSavedContainer>
-  )
+  NoSavedVids = () => {
+    const {theme} = this.context
+    return (
+      <NoSavedContainer theme={theme}>
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png"
+          alt="no saved videos"
+        />
+        <h1>No saved videos found</h1>
+        <p>Save your videos by clicking a button</p>
+      </NoSavedContainer>
+    )
+  }
+
+  renderSavedVideosList = () => {
+    const {savedVideos} = this.state
+    const {theme} = this.context
+
+    return (
+      <SavedList>
+        {savedVideos.map(video => (
+          <SavedCard key={video.id} theme={theme}>
+            <StyledLink to={`/videos/${video.id}`}>
+              <SavedThumbnail src={video.thumbnail_url} alt={video.title} />
+            </StyledLink>
+            <SavedDetails>
+              <SavedTitle theme={theme}>{video.title}</SavedTitle>
+              <SavedText theme={theme}>{video.channel}</SavedText>
+              <SavedText theme={theme}>{video.view_count} views</SavedText>
+            </SavedDetails>
+          </SavedCard>
+        ))}
+      </SavedList>
+    )
+  }
 
   render() {
     const {theme} = this.context
@@ -51,18 +77,18 @@ class SavedPage extends Component {
 
     return (
       <StyledThemeProvider theme={theme}>
-        <TrendingDiv>
+        <TrendingDiv theme={theme}>
           <Header />
           <AppContainer>
             <MainBg>
               <Sidebar />
               <div style={{flex: 1}}>
-                <SavedBg>
+                <SavedBg theme={theme}>
                   <FaFire
                     size={24}
                     style={{color: 'red', marginRight: '8px'}}
                   />
-                  <SaveHead>Saved Videos</SaveHead>
+                  <SaveHead theme={theme}>Saved Videos</SaveHead>
                 </SavedBg>
 
                 {isLoading ? (
@@ -77,21 +103,7 @@ class SavedPage extends Component {
                 ) : savedVideos.length === 0 ? (
                   this.NoSavedVids()
                 ) : (
-                  <SavedList>
-                    {savedVideos.map(video => (
-                      <SavedCard key={video.id}>
-                        <SavedThumbnail
-                          src={video.thumbnail_url}
-                          alt={video.title}
-                        />
-                        <SavedDetails>
-                          <SavedTitle>{video.title}</SavedTitle>
-                          <SavedText>{video.channel}</SavedText>
-                          <SavedText>{video.view_count} views</SavedText>
-                        </SavedDetails>
-                      </SavedCard>
-                    ))}
-                  </SavedList>
+                  this.renderSavedVideosList()
                 )}
               </div>
             </MainBg>

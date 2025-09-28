@@ -1,11 +1,11 @@
 import {Component} from 'react'
+import {Link} from 'react-router-dom'
 import Header from '../Header'
 import Sidebar from '../Sidebar'
 import {ThemeProvider as StyledThemeProvider} from 'styled-components'
 import ThemeContext from '../../context/ThemeContext'
 import Cookies from 'js-cookie'
 import {FaFire} from 'react-icons/fa'
-import {formatDistanceToNow} from 'date-fns'
 import Loader from 'react-loader-spinner'
 
 import {
@@ -30,9 +30,6 @@ import {
   RetryBtn,
 } from './styledComponents'
 
-const failureImgUrl =
-  'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
-
 class TrendingPage extends Component {
   static contextType = ThemeContext
 
@@ -47,15 +44,12 @@ class TrendingPage extends Component {
   }
 
   renderTrendingVideos = async () => {
-    this.setState({isLoading: true}) // start loading
+    this.setState({isLoading: true})
     const url = 'https://apis.ccbp.in/videos/trending'
     const jwtToken = Cookies.get('jwt_token')
-
     const options = {
       method: 'GET',
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
+      headers: {Authorization: `Bearer ${jwtToken}`},
     }
 
     try {
@@ -75,11 +69,9 @@ class TrendingPage extends Component {
     }
   }
 
-  retry = () => {
-    this.renderTrendingVideos()
-  }
+  retry = () => this.renderTrendingVideos()
 
-  renderFailureView = () => (
+  renderFailureView = failureImgUrl => (
     <FailureView>
       <FailureImg src={failureImgUrl} alt="failure view" />
       <FailureHeading>Oops! Something Went Wrong</FailureHeading>
@@ -94,30 +86,34 @@ class TrendingPage extends Component {
   renderVideosList = () => {
     const {trendVideos} = this.state
 
-    return trendVideos.map(video => {
-      const publishedAgo = formatDistanceToNow(new Date(video.published_at), {
-        addSuffix: true,
-      })
-
-      return (
-        <TrendVideoCard key={video.id}>
-          <Thumbnail src={video.thumbnail_url} alt={video.title} />
+    return trendVideos.map(video => (
+      <TrendVideoCard key={video.id}>
+        <Link
+          to={`/videos/${video.id}`}
+          style={{textDecoration: 'none', color: 'inherit'}}
+        >
+          <Thumbnail src={video.thumbnail_url} alt="video thumbnail" />
           <TextBg>
             <VideoTitle>{video.title}</VideoTitle>
             <MetaInfo>
               <Meta>{video.channel.name}</Meta>
               <Meta>• {video.view_count} views</Meta>
-              <Meta>• {publishedAgo}</Meta>
+              <Meta>• {video.published_at}</Meta>
             </MetaInfo>
           </TextBg>
-        </TrendVideoCard>
-      )
-    })
+        </Link>
+      </TrendVideoCard>
+    ))
   }
 
   render() {
     const {theme} = this.context
     const {apiFailed, isLoading} = this.state
+
+    const failureImgUrl =
+      theme.mode === 'dark'
+        ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
+        : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
 
     return (
       <StyledThemeProvider theme={theme}>
@@ -137,7 +133,7 @@ class TrendingPage extends Component {
 
                 <UlTrendVidContainer>
                   {isLoading ? (
-                    <LoaderContainer>
+                    <LoaderContainer data-testid="loader">
                       <Loader
                         type="ThreeDots"
                         color={theme.mode === 'dark' ? '#ffffff' : '#000000'}
@@ -146,7 +142,7 @@ class TrendingPage extends Component {
                       />
                     </LoaderContainer>
                   ) : apiFailed ? (
-                    this.renderFailureView()
+                    this.renderFailureView(failureImgUrl)
                   ) : (
                     this.renderVideosList()
                   )}

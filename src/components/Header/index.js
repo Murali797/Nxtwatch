@@ -1,9 +1,9 @@
+// src/components/Header/index.js
 import {Component} from 'react'
 import {GiHamburgerMenu} from 'react-icons/gi'
 import {FiLogOut} from 'react-icons/fi'
 import {FaMoon, FaSun} from 'react-icons/fa'
-import {withRouter} from 'react-router-dom'
-import {Link} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import {ThemeProvider as StyledThemeProvider} from 'styled-components'
 import ThemeContext from '../../context/ThemeContext'
@@ -42,7 +42,8 @@ class Header extends Component {
 
   handleLogout = () => {
     Cookies.remove('jwt_token')
-    window.location.href = '/login'
+    const {history} = this.props
+    history.replace("/")
   }
 
   render() {
@@ -53,18 +54,17 @@ class Header extends Component {
       <StyledThemeProvider theme={theme}>
         <HeaderContainer>
           {/* Mobile Header */}
-          {/* Mobile Header */}
           <MobileHeader>
             <Nav>
-              <Link to='/'>
-                <Logo src={theme.logo} alt='logo' />
+              <Link to="/">
+                <Logo src={theme.logo} alt="website logo" />
               </Link>
               <Side>
-                <IconBtn onClick={toggleTheme}>
+                <IconBtn data-testid="theme" onClick={toggleTheme}>
                   {mode === 'light' ? <FaMoon /> : <FaSun />}
                 </IconBtn>
-                <IconBtn>
-                  <GiHamburgerMenu onClick={this.toggleMenu} />
+                <IconBtn onClick={this.toggleMenu}>
+                  <GiHamburgerMenu />
                 </IconBtn>
                 <IconBtn onClick={() => this.setState({showLogoutPopup: true})}>
                   <FiLogOut />
@@ -74,16 +74,16 @@ class Header extends Component {
             {menuOpens && (
               <HamburgerMenu>
                 <HamburgerItem>
-                  <Link to='/'>Home</Link>
+                  <Link to="/">Home</Link>
                 </HamburgerItem>
                 <HamburgerItem>
-                  <Link to='/trending'>Trending</Link>
+                  <Link to="/trending">Trending</Link>
                 </HamburgerItem>
                 <HamburgerItem>
-                  <Link to='/gaming'>Gaming</Link>
+                  <Link to="/gaming">Gaming</Link>
                 </HamburgerItem>
                 <HamburgerItem>
-                  <Link to='/saved-videos'>Saved Videos</Link>
+                  <Link to="/saved-videos">Saved Videos</Link>
                 </HamburgerItem>
               </HamburgerMenu>
             )}
@@ -92,16 +92,16 @@ class Header extends Component {
           {/* Laptop Header */}
           <LaptopHeader>
             <Nav>
-              <Link to='/'>
-                <Logo src={theme.logo} alt='logo' />
+              <Link to="/">
+                <Logo src={theme.logo} alt="website logo" />
               </Link>
               <Side>
-                <IconBtn onClick={toggleTheme}>
+                <IconBtn data-testid="theme" onClick={toggleTheme}>
                   {mode === 'light' ? <FaMoon /> : <FaSun />}
                 </IconBtn>
                 <Profile
-                  src='https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png'
-                  alt='profile'
+                  src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png"
+                  alt="profile"
                 />
                 <LogoutBtn
                   onClick={() => this.setState({showLogoutPopup: true})}
@@ -112,6 +112,7 @@ class Header extends Component {
             </Nav>
           </LaptopHeader>
 
+          {/* Logout Confirmation Popup */}
           {showLogoutPopup && (
             <PopupOverlay>
               <PopupBox>

@@ -1,10 +1,14 @@
+// src/components/GamingPage/index.js
 import {Component} from 'react'
+import {withRouter} from 'react-router-dom'
 import Header from '../Header'
 import Sidebar from '../Sidebar'
 import {ThemeProvider as StyledThemeProvider} from 'styled-components'
 import ThemeContext from '../../context/ThemeContext'
 import Cookies from 'js-cookie'
 import {SiYoutubegaming} from 'react-icons/si'
+import Loader from 'react-loader-spinner'
+
 import {
   TrendingDiv,
   AppContainer,
@@ -17,8 +21,8 @@ import {
   TextBg,
   VideoTitle,
   MetaInfo,
-  ContentArea,
   Meta,
+  ContentArea,
   FailureView,
   FailureImg,
   FailureHeading,
@@ -26,7 +30,6 @@ import {
   RetryBtn,
   LoaderContainer,
 } from './styledComponents'
-import Loader from 'react-loader-spinner'
 
 class GamingPage extends Component {
   static contextType = ThemeContext
@@ -38,6 +41,11 @@ class GamingPage extends Component {
   }
 
   componentDidMount() {
+    const jwtToken = Cookies.get('jwt_token')
+    if (!jwtToken) {
+      this.props.history.replace('/login')
+      return
+    }
     this.renderGamingItems()
   }
 
@@ -60,9 +68,7 @@ class GamingPage extends Component {
 
     const options = {
       method: 'GET',
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
+      headers: {Authorization: `Bearer ${jwtToken}`},
     }
 
     try {
@@ -78,9 +84,7 @@ class GamingPage extends Component {
     }
   }
 
-  retry = () => {
-    this.renderGamingItems()
-  }
+  retry = () => this.renderGamingItems()
 
   renderGamingVideosList = () => {
     const {gamingItems} = this.state
@@ -88,7 +92,7 @@ class GamingPage extends Component {
       <UlVideoContainer>
         {gamingItems.map(video => (
           <VideoCard key={video.id}>
-            <Thumbnail src={video.thumbnail_url} alt={video.title} />
+            <Thumbnail src={video.thumbnail_url} alt="video thumbnail" />
             <TextBg>
               <VideoTitle>{video.title}</VideoTitle>
               <MetaInfo>
@@ -103,7 +107,7 @@ class GamingPage extends Component {
 
   render() {
     const {theme} = this.context
-    const {gamingItems, isLoading, apiFailed} = this.state
+    const {isLoading, apiFailed} = this.state
 
     const failureImgUrl =
       theme.mode === 'dark'
@@ -127,7 +131,7 @@ class GamingPage extends Component {
                 </GamingBg>
 
                 {isLoading ? (
-                  <LoaderContainer>
+                  <LoaderContainer data-testid="loader">
                     <Loader
                       type="ThreeDots"
                       color={theme.mode === 'dark' ? '#ffffff' : '#000000'}
@@ -137,8 +141,6 @@ class GamingPage extends Component {
                   </LoaderContainer>
                 ) : apiFailed ? (
                   this.renderFailureView(failureImgUrl)
-                ) : gamingItems.length === 0 ? (
-                  <h2>No videos found</h2>
                 ) : (
                   this.renderGamingVideosList()
                 )}
@@ -151,4 +153,4 @@ class GamingPage extends Component {
   }
 }
 
-export default GamingPage
+export default withRouter(GamingPage)

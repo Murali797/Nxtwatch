@@ -28,6 +28,7 @@ export const MainContentLap = styled.div`
 
 export const PopupContainer = styled.div`
   position: relative;
+  text-align: center;
 `
 
 export const CloseBtn = styled.button`
@@ -46,9 +47,10 @@ export const GetIcon = styled.img`
   height: 30px;
 `
 
-export const HeadingGet = styled.h1`
+export const HeadingGet = styled.p`
   font-size: 16px;
   color: ${({theme}) => theme.text};
+  margin: 12px 0;
 `
 
 export const GetBtn = styled.button`
@@ -85,7 +87,6 @@ export const InputBg = styled.div`
   margin: 20px auto;
   padding: 0 8px;
   border: 1px solid #aaa;
-  border-radius: 0;
   background-color: ${({theme}) => theme.bg};
   color: ${({theme}) => theme.text};
   box-sizing: border-box;
@@ -110,6 +111,20 @@ export const SearchIcon = styled.img`
   height: 20px;
   cursor: pointer;
   flex-shrink: 0;
+`
+
+export const NavUl = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+
+  @media screen and (min-width: 768px) {
+    justify-content: flex-start;
+    margin-left: 320px;
+  }
 `
 
 export const UlVideosContainer = styled.ul`
@@ -178,19 +193,7 @@ export const TextBg = styled.div`
   word-break: break-word;
 `
 
-export const MetaInfo = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 12px;
-`
-
-export const Meta = styled.span`
-  font-size: 12px;
-  margin: 5px;
-  color: ${({theme}) => theme.text};
-`
-
-export const VideoTitle = styled.h2`
+export const VideoTitle = styled.p`
   font-size: 16px;
   font-family: "Roboto";
   color: ${({theme}) => theme.text};
@@ -201,6 +204,12 @@ export const VideoTitle = styled.h2`
   }
 `
 
+export const VideoText = styled.p`
+  font-size: 12px;
+  color: ${({theme}) => theme.text};
+  margin: 2px 0;
+`
+
 export const FailureView = styled.div`
   display: flex;
   flex-direction: column;
@@ -208,9 +217,9 @@ export const FailureView = styled.div`
   justify-content: center;
   margin-top: 40px;
   text-align: center;
-  
-  @media screen and (min-width: 768px){
-    margin-left: 300px
+
+  @media screen and (min-width: 768px) {
+    margin-left: 300px;
   }
 `
 
@@ -256,8 +265,47 @@ export const LoaderContainer = styled.div`
   }
 `
 
-// ✅ Custom Link with no underline + theme color
 export const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
+`
+
+/* ✅ No Videos / Empty Search Results */
+export const NoVideosView = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+`
+
+export const NoVideosImg = styled.img`
+  width: 300px;
+  max-width: 100%;
+  margin-bottom: 20px;
+`
+
+export const NoVideosHeading = styled.h1`
+  font-size: 20px;
+  color: ${({theme}) => theme.text};
+  margin-bottom: 10px;
+`
+
+export const NoVideosText = styled.p`
+  font-size: 14px;
+  color: ${({theme}) => theme.text};
+  margin-bottom: 20px;
+  text-align: center;
+`
+
+export const NoVideosRetryBtn = styled.button`
+  background-color: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  &:hover {
+    background-color: #4338ca;
+  }
 `

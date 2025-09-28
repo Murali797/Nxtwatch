@@ -51,7 +51,9 @@ class Sidebar extends Component {
             </StyledLink>
 
             <StyledLink to="/saved-videos">
-              <SideContent active={window.location.pathname === '/saved-videos'}>
+              <SideContent
+                active={window.location.pathname === '/saved-videos'}
+              >
                 <SideIcon as={BiListPlus} />
                 <Heading>Saved Videos</Heading>
               </SideContent>
